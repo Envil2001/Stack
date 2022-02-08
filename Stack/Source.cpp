@@ -7,7 +7,7 @@ using namespace std;
 
 struct tstk
 {
-    float inf[MAX_SIZE];
+    float inf;
     int size = 0;
     tstk* a;
 };
@@ -33,7 +33,7 @@ tstk* AddStack(tstk* sp, int inf)
     {
         sp = spt;
         sp->size = 1;
-        sp->inf[sp->size] = inf;
+        sp->inf = inf;
         sp->a = nullptr;
         return sp;
     }
@@ -43,7 +43,7 @@ tstk* AddStack(tstk* sp, int inf)
     }
     else {
         spt->size = sp->size + 1;
-        spt->inf[sp->size] = inf;
+        spt->inf = inf;
         spt->a = sp;
     }
     return spt;
@@ -51,14 +51,15 @@ tstk* AddStack(tstk* sp, int inf)
 
 
 void stkPrint(tstk* sp) {
+    int arrayStackSize = sp->size;
+    cout << sp << " qqqqqqq" << endl;
     if (sp == nullptr)
         cout << "Стек пуст" << endl;
     else {
-        do
-        {
-            sp--;
-            cout << sp->inf[sp->size] << "" << endl;
-        } while (sp != 0);
+        do {
+            arrayStackSize--;
+            cout << sp->inf << "" << endl;
+        } while (arrayStackSize != 1);
     }
     cout << endl;
 }
