@@ -1,119 +1,73 @@
 #include <iostream>
-#define MAX_SIZE 100
 
-//Варіант 19 (4)
-//Створити стек з числами в діапазоні від - 50 до + 50. Після створення стека
-//виконати індивідуальне завдання.В кінці роботи всі стеки повинні бути
-//видалені.
-//
-//4. Створити новий стек, що містить тільки позитивні числа з першого стека.
+#define MAX_SIZE 100
 
 using namespace std;
 
-struct stack {
-	float elem[MAX_SIZE];
-	int top;
+
+struct tstk
+{
+    int inf;
+    int size;
+    tstk* a;
 };
 
-void init(struct stack* stk) {
-	stk->top = 0;
+tstk* DelStackAll(tstk* sp)
+{
+    tstk* spt; int inf;
+    while (sp != NULL) {
+        spt = sp;
+        inf = sp->inf;
+        cout << inf << " ";
+        sp = sp->a;
+        delete spt;
+    }
+    return NULL;
 }
 
-int getcount(struct stack* stk) {
-	return stk->top;
-}
-void push(struct stack* stk, float f) {
-	if (stk->top < MAX_SIZE) {
-		stk->elem[stk->top] = f;
-		stk->top++;
-		cout << f << " ";
-	}
-	else
-		cout << "The stack is full, the number of elements: " << stk->top << " ";
+tstk* AddStack(tstk* sp, int inf)
+{
+    tstk* spt = new tstk;
 
-}
-
-
-int isempty(struct stack* stk) {
-	if (stk->top == 0)    return 1;
-	else return 0;
+    if (sp->size >= MAX_SIZE) {
+        cout << "Ошибка: полный стек" << endl;
+    }
+    else {
+        spt->size = sp->size + 1;
+        cout << sp->size << " else " << endl;
+        spt->inf = inf;
+        spt->a = sp;
+    }
+    return spt;
 }
 
-float pop(struct stack* stk) {
-	float elem;
-	if ((stk->top) > 0)
-	{
-		stk->top--;
-		elem = stk->elem[stk->top];
-		return elem;
-	}
-	else
-	{
-		cout << "Stack removed" << endl;
-		return 0;
-	}
-}
+//tstk* ReadStackD(tstk* sp, int& inf)
+//{
+//    if (sp == NULL) return NULL;
+//    tstk* spt = sp;
+//    inf = sp->inf;
+//    sp = sp->a;
+//    delete spt;
+//    return sp;
+//}
 
-void filter(struct stack* stk) {
-	int i;
-	i = stk->top; // i - number of elements in the stack
-	do {
-		i--;
-		if (stk->elem[i] >= -50 && stk->elem[i] <= 50) {
-			stk->elem[i];
-			cout << stk->elem[i] << " ";
-		}
-	} while (i > 0);
+int main()
+{
+    tstk* sp = NULL;
+    int i, j;
+    //const int max = 50, min = -50;
+    //for (i = 0; i <= MAX_SIZE; i++)
+    for (i = -50; i <= 150; i++)
+    {
+        //sp = AddStack(sp, min + rand() % ((max + 1) - min));
+        //cout << min + rand() % ((max + 1) - min) << " ";
+        sp = AddStack(sp, i); 
+        //cout << i << " ";
 
-}
+    }
+    cout << endl << endl;
 
+    sp = DelStackAll(sp);
 
-void stkPrint(struct stack* stk) {
-	int i;
-	i = stk->top; // i - number of elements in the stack
-	if (isempty(stk) == 1) return; // stack is empty
-	cout << endl;
-	do {
-		i--;
-		cout << stk->elem[i] << " ";
-
-	} while (i > 0);
-
-	cout << endl;
-}
-
-
-
-int main() {
-	setlocale(LC_ALL, "ru");
-
-	struct stack* stk;
-
-	const int max = MAX_SIZE, min = -MAX_SIZE;
-	stk = (struct stack*)malloc(sizeof(struct stack));
-	init(stk); // инициализация стека init(stk), где s — стек
-
-	cout << "---------------------------------" << endl;
-	cout << "Вывод всех чисел: " << endl;
-	for (int i = 0; i < MAX_SIZE; i++) {
-		push(stk, min + rand() % ((max + 1) - min)); //помещение элемента в стек push(stk, i), где stk — стек, i — помещаемый элемент;
-	}
-	cout << endl;
-	cout << "In the stack " << getcount(stk) << " items" << endl;
-	cout << "---------------------------------" << endl;
-	stkPrint(stk); // вывод элементов стека stkPrint(stk), где s — стек
-	cout << endl;
-	cout << "FILTER" << endl;
-	filter(stk); // ВОТ ЭТА ХУЕТА ПО ИДЕЕ ДОЛЖНА ФИЛЬТРОВАТЬ ТУ ХУЕТУ
-	cout << endl;
-	stkPrint(stk); // НУ А ЭТА ХУЕТА ВЫВОДИТ
-	cout << "FILTER END" << endl;
-	cout << "Removing the stacks..." << endl;
-	do {
-		cout << "Извлекаем элемент: " << pop(stk) << endl; // Removing elements. удаление элемента из стека i=pop(stk);
-	} while (isempty(stk) == 0);
-	cout << endl;
-	cout << "In the stack " << getcount(stk) << " items" << endl;
-
-	return 0;
+    return 0;
 }
