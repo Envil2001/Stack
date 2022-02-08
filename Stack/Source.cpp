@@ -49,16 +49,18 @@ tstk* AddStack(tstk* sp, int inf)
     return spt;
 }
 
-
 void stkPrint(tstk* sp) {
     int arrayStackSize = sp->size;
-    cout << sp << " qqqqqqq" << endl;
-    if (sp == nullptr)
+    tstk* current = sp;
+
+    cout << current->inf << " qqqqqqq" << endl;
+    if (current == nullptr)
         cout << "Стек пуст" << endl;
     else {
         do {
             arrayStackSize--;
-            cout << sp->inf << "" << endl;
+            cout << current->inf << "" << endl;
+            current = current->a; // go to the next element of stack
         } while (arrayStackSize != 1);
     }
     cout << endl;
