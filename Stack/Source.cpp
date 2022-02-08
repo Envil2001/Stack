@@ -7,39 +7,62 @@ using namespace std;
 
 struct tstk
 {
-    int inf;
-    int size;
+    float inf[MAX_SIZE];
+    int size = 0;
     tstk* a;
 };
 
-tstk* DelStackAll(tstk* sp)
-{
-    tstk* spt; int inf;
-    while (sp != NULL) {
-        spt = sp;
-        inf = sp->inf;
-        cout << inf << " ";
-        sp = sp->a;
-        delete spt;
-    }
-    return NULL;
-}
+//tstk* DelStackAll(tstk* sp)
+//{
+//    tstk* spt; int inf;
+//    while (sp != NULL) {
+//        spt = sp;
+//        inf = sp->inf;
+//        cout << inf << " ";
+//        sp = sp->a;
+//        delete spt;
+//    }
+//    return NULL;
+//}
 
 tstk* AddStack(tstk* sp, int inf)
 {
     tstk* spt = new tstk;
 
+    if (sp == nullptr)
+    {
+        sp = spt;
+        sp->size = 1;
+        sp->inf[sp->size] = inf;
+        sp->a = nullptr;
+        return sp;
+    }
+
     if (sp->size >= MAX_SIZE) {
-        cout << "Ошибка: полный стек" << endl;
+        cout << "Stack overflow!" << endl;
     }
     else {
         spt->size = sp->size + 1;
-        cout << sp->size << " else " << endl;
-        spt->inf = inf;
+        spt->inf[sp->size] = inf;
         spt->a = sp;
     }
     return spt;
 }
+
+
+void stkPrint(tstk* sp) {
+    if (sp == nullptr)
+        cout << "Стек пуст" << endl;
+    else {
+        do
+        {
+            sp--;
+            cout << sp->inf[sp->size] << "" << endl;
+        } while (sp != 0);
+    }
+    cout << endl;
+}
+
 
 //tstk* ReadStackD(tstk* sp, int& inf)
 //{
@@ -55,19 +78,14 @@ int main()
 {
     tstk* sp = NULL;
     int i, j;
-    //const int max = 50, min = -50;
-    //for (i = 0; i <= MAX_SIZE; i++)
-    for (i = -50; i <= 150; i++)
-    {
-        //sp = AddStack(sp, min + rand() % ((max + 1) - min));
-        //cout << min + rand() % ((max + 1) - min) << " ";
-        sp = AddStack(sp, i); 
-        //cout << i << " ";
-
+    const int max = 50, min = -50;
+    for (i = 0; i <= MAX_SIZE; i++) {
+        sp = AddStack(sp, min + rand() % ((max + 1) - min));
+        cout << "cout - " << min + rand() % ((max + 1) - min) << endl;
     }
     cout << endl << endl;
-
-    sp = DelStackAll(sp);
+    stkPrint(sp);
+    //sp = DelStackAll(sp);
 
     return 0;
 }
