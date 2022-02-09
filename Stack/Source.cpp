@@ -1,31 +1,17 @@
-#include <iostream>
-
+#include <iostream> 
+#include <stdlib.h> 
+#include <conio.h> 
 #define MAX_SIZE 100
 
 using namespace std;
-
-
 struct tstk
 {
-    float inf;
+    int inf;
     int size = 0;
     tstk* a;
 };
 
-//tstk* DelStackAll(tstk* sp)
-//{
-//    tstk* spt; int inf;
-//    while (sp != NULL) {
-//        spt = sp;
-//        inf = sp->inf;
-//        cout << inf << " ";
-//        sp = sp->a;
-//        delete spt;
-//    }
-//    return NULL;
-//}
-
-tstk* AddStack(tstk* sp, int inf)
+tstk* add(tstk* sp, int inf)
 {
     tstk* spt = new tstk;
 
@@ -37,58 +23,62 @@ tstk* AddStack(tstk* sp, int inf)
         sp->a = nullptr;
         return sp;
     }
-
     if (sp->size >= MAX_SIZE) {
-        cout << "Stack overflow!" << endl;
+        cout << "Стек переполнен!" << endl;
+        return sp;
     }
     else {
         spt->size = sp->size + 1;
         spt->inf = inf;
         spt->a = sp;
     }
+
     return spt;
 }
 
-void stkPrint(tstk* sp) {
-    int arrayStackSize = sp->size;
-    tstk* current = sp;
+tstk* ReadStackD(tstk* sp, int& inf)
+{
+    if (sp == NULL) return NULL;
+    tstk* spt = sp;
+    inf = sp->inf;
+    sp = sp->a;
+    delete spt;
+    return sp;
+}
 
-    cout << current->inf << " qqqqqqq" << endl;
-    if (current == nullptr)
-        cout << "Стек пуст" << endl;
-    else {
-        do {
-            arrayStackSize--;
-            cout << current->inf << "" << endl;
-            current = current->a; // go to the next element of stack
-        } while (arrayStackSize != 1);
+void Printst(tstk* sp) {
+    while (sp)
+    {
+        cout << sp->inf << " ";
+        sp = sp->a;
     }
     cout << endl;
 }
 
 
-//tstk* ReadStackD(tstk* sp, int& inf)
-//{
-//    if (sp == NULL) return NULL;
-//    tstk* spt = sp;
-//    inf = sp->inf;
-//    sp = sp->a;
-//    delete spt;
-//    return sp;
-//}
-
-int main()
+void main()
 {
+    setlocale(LC_ALL, "Russian");
+
     tstk* sp = NULL;
-    int i, j;
     const int max = 50, min = -50;
-    for (i = 0; i <= MAX_SIZE; i++) {
-        sp = AddStack(sp, min + rand() % ((max + 1) - min));
-        cout << "cout - " << min + rand() % ((max + 1) - min) << endl;
+    for (int i = 0; i < MAX_SIZE + 1; i++) {
+        //cout << min + rand() % ((max + 1) - min) << " ";
+        if ((min + rand() % ((max + 1) - min)) > 0) {
+            sp = add(sp, min + rand() % ((max + 1) - min));
+        }
     }
     cout << endl << endl;
-    stkPrint(sp);
-    //sp = DelStackAll(sp);
+    cout << "Размер: " << sp->size << endl << endl;
 
-    return 0;
+    Printst(sp);
+    //tstk* sp2 = NULL;
+    //while (sp)
+    //{
+    //    int inf;
+    //    sp = ReadStackD(sp, inf);
+    //    if (inf > 0) sp2 = add(sp2, inf);
+    //}
 }
+
+
